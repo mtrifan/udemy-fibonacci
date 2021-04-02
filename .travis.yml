@@ -10,10 +10,10 @@ script:
   - docker run -e CI=true mtrifan/react-test npm run test
 
 after_success:
-  - docker build -t mtrifan/multi-client -f ./client
-  - docker build -t mtrifan/multi-nginx -f ./nginx
-  - docker build -t mtrifan/multi-server -f ./server
-  - docker build -t mtrifan/multi-worker -f ./worker
+  - docker build -t mtrifan/multi-client ./client
+  - docker build -t mtrifan/multi-nginx ./nginx
+  - docker build -t mtrifan/multi-server ./server
+  - docker build -t mtrifan/multi-worker ./worker
 
   #Log in to the docker CLI
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
