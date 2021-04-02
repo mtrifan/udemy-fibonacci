@@ -1,0 +1,24 @@
+sudo: required
+services:
+  - docker
+languge: generic
+
+before_install:
+  - docker build -t mtrifan/react-test -f ./client/Dockerfile.dev ./client
+
+script:
+  - docker run -e CI=true mtrifan/react-test npm run test
+
+after_success:
+  - docker build -t mtrifan/multi-client -f ./client
+  - docker build -t mtrifan/multi-nginx -f ./nginx
+  - docker build -t mtrifan/multi-server -f ./server
+  - docker build -t mtrifan/multi-worker -f ./worker
+
+  #Log in to the docker CLI
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  - docker push mtrifan/multi-client
+  - docker push mtrifan/multi-nginx
+  - docker push mtrifan/multi-server
+  - docker push mtrifan/multi-worker
+
