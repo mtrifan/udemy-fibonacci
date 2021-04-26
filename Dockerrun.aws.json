@@ -1,0 +1,35 @@
+{
+    "AWSEBDockerrunVersion": 2,
+    "containerDefinitions": [
+        {
+            "name": "client",
+            "image": "mtrifan/multi-client",
+            "hostname": "client",
+            "essential": false 
+        },
+        {
+            "name": "server",
+            "image": "mtrifan/multi-server",
+            "hostname": "api",
+            "essential": false
+        },
+        {
+            "name": "worker",
+            "image": "mtrifan/multi-worker",
+            "hostname": "worker",
+            "essential": false
+        },
+        {
+            "name": "nginx",
+            "image": "mtrifan/multi-nginx",
+            "essential": true,
+            "portMappings": [
+                {
+                    "hostPort": 80,
+                    "container": 80
+                }
+            ],
+            "links": ["client", "server"]
+        }
+    ]
+}  
